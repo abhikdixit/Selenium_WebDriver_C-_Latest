@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
 using System;
 using System.IO;
-
+using AventStack.ExtentReports.Reporter.Config;
 
 namespace pk_Advance_Topics
 {
@@ -24,6 +24,9 @@ namespace pk_Advance_Topics
         [OneTimeSetUp]
         public void StartReport()
         {
+            // Ensure the test-output directory exists
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "test-output"));
+
             // Initialize ExtentReports and attach the HTML reporter
             var htmlReporter = new ExtentSparkReporter(reportPath);
             extent = new ExtentReports();
@@ -37,7 +40,7 @@ namespace pk_Advance_Topics
             // Configuration items to change the look and feel
             htmlReporter.Config.DocumentTitle = "Smoke - Extent Report for WebOrder";
             htmlReporter.Config.ReportName = "Batch Smoke Test Report for WebOrder";
-            //htmlReporter.Config.Theme = Theme.Dark;
+            htmlReporter.Config.Theme = Theme.Dark; // Set theme to Dark
             htmlReporter.Config.Encoding = "UTF-8";
         }
 
@@ -48,7 +51,7 @@ namespace pk_Advance_Topics
             test = extent.CreateTest("Test Case 1", "Launching Firefox Browser");
 
             // Initialize FirefoxDriver
-            driver = new FirefoxDriver();
+            driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
 
             // Log the status in the ExtentReport
@@ -125,13 +128,22 @@ namespace pk_Advance_Topics
 
         private void CaptureScreenshot(string status)
         {
+            // Ensure the test-output directory exists
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "test-output"));
+
             // Capture a screenshot and save it to the test-output directory
-            string screenshotPath = Path.Combine(Directory.GetCurrentDirectory(), "test-output", $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            string screenshotName = $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+            string screenshotPath = Path.Combine(Directory.GetCurrentDirectory(), "test-output", screenshotName);
+
+            // Save the screenshot to the specified path as a PNG file
             ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(screenshotPath);
+
+            // Log the screenshot path in the ExtentReport
             test.Log(Status.Info, $"Screenshot saved: {screenshotPath}");
 
-            // Add the screenshot to the ExtentReport
-            test.AddScreenCaptureFromPath(screenshotPath);
+            // Add the screenshot to the ExtentReport using a relative path
+            string relativeScreenshotPath = screenshotName;
+            test.AddScreenCaptureFromPath(relativeScreenshotPath);
         }
     }
 }

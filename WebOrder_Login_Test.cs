@@ -7,6 +7,7 @@ using OpenQA.Selenium.Edge;
 namespace WebOrder
 {
     [TestFixture]
+    [Category("RegressionTest")]
     public class WebOrder_Login_TestNG
     {
         private IWebDriver driver;
@@ -15,7 +16,7 @@ namespace WebOrder
         public void LoginToApp()
         {
 
-            driver = new EdgeDriver();
+            driver = new ChromeDriver();
 
             // For Chrome
             // new DriverManager().SetUpDriver(new ChromeConfig());

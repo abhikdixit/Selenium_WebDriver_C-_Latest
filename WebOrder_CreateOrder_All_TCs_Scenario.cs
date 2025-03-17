@@ -6,6 +6,8 @@ using System.Collections;
 
 namespace WebOrderTests
 {
+    //[TestFixture]
+    //[Category("SmokeTest")]
     public class WebOrder_CreateOrder_All_TCs_Scenario
     {
         private IWebDriver driver;

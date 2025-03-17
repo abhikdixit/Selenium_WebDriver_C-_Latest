@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 using System;
 
 namespace pk_Advance_Topics
 {
+    [TestFixture]
+    [Category("SanityTest")]
     public class Scenario2_BasicAuth
     {
         private IWebDriver driver;
@@ -13,7 +15,7 @@ namespace pk_Advance_Topics
         public void SetUp()
         {
             // Set up FirefoxDriver (ensure GeckoDriver is in your PATH or specify its location)
-            driver = new FirefoxDriver();
+            driver = new ChromeDriver();
 
             // For Window Pop up, pass username and password along with the URL
             // Format: https://username:password@

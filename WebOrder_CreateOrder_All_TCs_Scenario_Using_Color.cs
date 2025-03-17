@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace WebOrderTests
 {
+    //[TestFixture]
+    //[Category("SmokeTest")]
     public class WebOrder_CreateOrder_All_TCs_Scenario_Using_Color
     {
         private IWebDriver driver;
@@ -13,7 +15,7 @@ namespace WebOrderTests
         [OneTimeSetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
+            driver = new EdgeDriver();
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://secure.smartbearsoftware.com/samples/TestComplete11/WebOrders/Login.aspx");
             driver.FindElement(By.Name("ctl00$MainContent$username")).SendKeys("Tester");

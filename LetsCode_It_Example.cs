@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 using System;
 
-namespace WebOrder
+namespace LetsKodeItPracticeTests
 {
     [TestFixture]
     public class LetsCodeIt_Example

@@ -5,6 +5,8 @@ using System;
 
 namespace pk_Advance_Topics
 {
+    [TestFixture]
+    [Category("SanityTest")]
     public class Execute_JavaScript_CaptureScrapeData
     {
         IWebDriver driver;

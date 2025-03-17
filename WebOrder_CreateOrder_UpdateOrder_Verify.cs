@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebOrder
 {
     [TestFixture]
+    [Category("SmokeTest")]
     public class WebOrder_UpdateOrder_VerifyOrder
     {
         private IWebDriver driver;

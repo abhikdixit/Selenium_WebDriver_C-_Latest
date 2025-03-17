@@ -1,16 +1,16 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Support.UI;
 
-namespace WebOrder
+namespace pk_Advance_Topics
 {
     [TestFixture]
-    [Category("SmokeTest")]
-    public class WebOrder_Login_CreateOrder_VerifyOrder
+    public class IgnoreMethod_UpdateOrder_VerifyOrder
     {
         private IWebDriver driver;
+        private string UserName;
 
         [OneTimeSetUp]
         public void Setup()
@@ -56,7 +56,10 @@ namespace WebOrder
             product.SelectByText("FamilyAlbum");
             driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$txtQuantity")).SendKeys("5");
 
-            driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$txtName")).SendKeys("Dixit");
+            Random randomGenerator = new Random();
+            int randomInt = randomGenerator.Next(1000);
+            UserName = "Dixit" + randomInt;
+            driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$txtName")).SendKeys(UserName);
             System.Threading.Thread.Sleep(5000);
             driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$TextBox2")).SendKeys("ABC");
             driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$TextBox3")).SendKeys("Redwood");
@@ -73,14 +76,30 @@ namespace WebOrder
 
             // Go back to View All Order page and Verify that user got created
             driver.FindElement(By.LinkText("View all orders")).Click();
-            string actUserName = driver.FindElement(By.XPath("//td[text()='Dixit']")).Text;
+            string actUserName = driver.FindElement(By.XPath("//td[text()='" + UserName + "']")).Text;
             //Assert.AreEqual(UserName, actUserName);
-            Assert.That("Dixit", Is.EqualTo(actUserName));
+            Assert.That(UserName, Is.EqualTo(actUserName));
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        [Test, Order(3)]
+        [Ignore("This test is disabled for now.")]
+        public void UpdateOrder()
         {
+            driver.FindElement(By.XPath("//td[text()='" + UserName + "']//following-sibling::td/input")).Click();
+            //Assert.IsTrue(driver.FindElement(By.XPath("//h2[normalize-space()='Edit Order']")).Displayed);
+            Assert.That(driver.FindElement(By.XPath("//h2[normalize-space()='Edit Order']")).Displayed, Is.True);
+            driver.FindElement(By.Name("ctl00$MainContent$fmwOrder$TextBox4")).SendKeys("CA");
+            driver.FindElement(By.Id("ctl00_MainContent_fmwOrder_UpdateButton")).Click();
+
+            string actState = driver.FindElement(By.XPath("//td[text()='" + UserName + "']//following-sibling::td[text()='CA']")).Text;
+            string expState = "CA";
+            //Assert.AreEqual(expState, actState);
+            Assert.That(expState, Is.EqualTo(actState));
+        }
+        [OneTimeTearDown]
+        public void PostCondition()
+        {
+            driver.FindElement(By.LinkText("Logout")).Click();
             driver.Quit();
         }
     }

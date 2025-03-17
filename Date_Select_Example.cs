@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace pk_Advance_Topics
 {
+    [TestFixture]
+    [Category("SanityTest")]
     public class Date_Select_Example
     {
         private IWebDriver driver;

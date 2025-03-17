@@ -7,6 +7,8 @@ using System.Threading;
 
 namespace pk_Advance_Topics
 {
+    [TestFixture]
+    [Category("SanityTest")]
     public class Drag_and_Drop_TestAutomation_WebSite
     {
         private IWebDriver driver;
